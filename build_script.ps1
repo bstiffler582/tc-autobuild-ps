@@ -4,7 +4,7 @@
 ##  - TwinCAT XAE
 
 # instantiate DTE object - this is the Visual Studio automation COM library
-$dte = new-object -com 'VisualStudio.DTE'
+$dte = new-object -com "VisualStudio.DTE"
 # suppress VS interface
 $dte.SuppressUI = $true
 
@@ -15,6 +15,7 @@ $tcRunPath = "C:\TwinCAT\3.1\Boot"
 
 # open solution file
 $sln = $dte.Solution
+echo "Opening solution in VS (background)..."
 $sln.Open("$slnPath\TwinCAT Project.sln")
 
 #### build options ###
@@ -29,12 +30,15 @@ $sln.Open("$slnPath\TwinCAT Project.sln")
 #$sln.SolutionBuild.BuildProject($buildConfig, $systemProject.FullName, $true)
 
 # build entire solution
+echo "Building..."
 $sln.SolutionBuild.Build($true)
 
 # close VS
+echo "Quitting VS (background)..."
 $dte.Quit();
 
 # package up build files
+echo "Generating build output archive..."
 Compress-Archive -Path "$buildPath\*" -DestinationPath "$slnPath\buildOutput.zip" -Update
 
 # extract to (local) PLC runtime dir
