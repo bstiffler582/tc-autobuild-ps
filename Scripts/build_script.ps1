@@ -9,8 +9,8 @@ $dte = new-object -com "VisualStudio.DTE"
 $dte.SuppressUI = $true
 
 # paths
-$slnPath = "$pwd"
-$buildPath = "$pwd\_Boot\TwinCAT RT (x64)"
+$slnPath = "$pwd\.."
+$buildPath = "$pwd\..\_Boot\TwinCAT RT (x64)"
 $tcRunPath = "C:\TwinCAT\3.1\Boot"
 
 # open solution file
@@ -35,7 +35,7 @@ $sln.SolutionBuild.Build($true)
 
 # close VS
 echo "Quitting VS (background)..."
-$dte.Quit();
+$dte.Quit()
 
 # package up build files
 echo "Generating build output archive..."
